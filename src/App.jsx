@@ -9,10 +9,27 @@ const initialState = [];
 export const App = () => {
 	const [todos, dispatch] = useReducer(todoReducer, initialState);
 
+	const pendingTodos = todos.filter((todo) => todo.done === false);
+	const completedTodos = todos.filter((todo) => todo.done === true);
+
 	const handleAddTodo = (newTodo) => {
 		dispatch({
 			type: "add",
 			payload: newTodo,
+		});
+	};
+
+	const handleCompleteTodo = (todoId) => {
+		dispatch({
+			type: "complete",
+			payload: todoId,
+		});
+	};
+
+	const handleDeleteTodo = (todoId) => {
+		dispatch({
+			type: "delete",
+			payload: todoId,
 		});
 	};
 
@@ -35,14 +52,14 @@ export const App = () => {
 				</Tabs.List>
 				<Tabs.Content anchor='tab-1'>
 					<AddTodo onNewTodo={handleAddTodo} />
-					<TodoList todos={todos} />
+					<TodoList todos={todos} onCompleteTodo={handleCompleteTodo} />
 				</Tabs.Content>
 				<Tabs.Content anchor='tab-2'>
 					<AddTodo />
-					<TodoList todos={todos} />
+					<TodoList todos={pendingTodos} />
 				</Tabs.Content>
 				<Tabs.Content anchor='tab-3'>
-					<TodoList todos={todos} />
+					<TodoList todos={completedTodos} onDeleteTodo={handleDeleteTodo} />
 				</Tabs.Content>
 			</Tabs>
 		</main>
@@ -51,9 +68,8 @@ export const App = () => {
 
 /* 
   TODO:
-  - Marcar Todo como completado
   - Borrar Todo
-  - Filtrar por completados
-  - Filtrar por activos
-  - Filtrar por All
+  // - Filtrar por completados
+  // - Filtrar por activos
+  // - Filtrar por All
 */

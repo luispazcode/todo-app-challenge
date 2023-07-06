@@ -7,6 +7,8 @@ export const AddTodo = ({ onNewTodo }) => {
 
 	const onFormSubmit = (e) => {
 		e.preventDefault();
+
+		if (description.length <= 2) return;
 		onNewTodo({
 			id: new Date().getTime() * 300,
 			description,
